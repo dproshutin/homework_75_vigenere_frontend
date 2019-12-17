@@ -1,0 +1,18 @@
+.Main {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+}
+.Main textarea {
+    margin-top: 20px;
+    resize: none;
+}
+.MainControls {
+    display: flex;
+    flex-direction: column;
+}
+.Main label {
+    display: flex;
+    flex-direction: column;
+
+}

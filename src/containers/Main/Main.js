@@ -4,7 +4,7 @@ import TextArea from "../../components/UI/TextArea/TextArea";
 import Button from "../../components/UI/Button/Button";
 import InputField from "../../components/UI/InputField/InputField";
 import {connect} from "react-redux";
-import {getTextEncoded, valueChanged} from "../../store/actions";
+import {getTextDecoded, getTextEncoded, valueChanged} from "../../store/actions";
 
 class Main extends Component {
     render() {
@@ -27,11 +27,12 @@ class Main extends Component {
                             <Button
                                 btnType="left"
                                 value="left"
-                                click={this.props.getTextEncoded}
+                                click={this.props.getTextDecoded}
                             />
                             <Button
                                 btnType="right"
                                 value="right"
+                                click={this.props.getTextEncoded}
                             />
                         </div>
                         <InputField
@@ -48,7 +49,7 @@ class Main extends Component {
                             rows="10"
                             cols="30"
                             message={this.props.cypher}
-                            placeholder="Please enter text to decode"
+                            placeholder="Please enter text to decode..."
                             change={this.props.valueChanged}
                         />
                     </label>
@@ -66,10 +67,11 @@ const mapStateToProps = state => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         valueChanged: (e) => dispatch(valueChanged(e)),
-        getTextEncoded: () => dispatch(getTextEncoded())
+        getTextEncoded: () => dispatch(getTextEncoded()),
+        getTextDecoded: () => dispatch(getTextDecoded())
     };
 };
 

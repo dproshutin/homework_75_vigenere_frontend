@@ -2,7 +2,10 @@ import {
     INPUT_CHANGE,
     GET_ENCODE_REQUEST,
     GET_ENCODE_SUCCESS,
-    GET_ENCODE_FAILURE
+    GET_ENCODE_FAILURE,
+    GET_DECODE_REQUEST,
+    GET_DECODE_SUCCESS,
+    GET_DECODE_FAILURE
 } from "./actionTypes";
 
 const initialState = {
@@ -24,6 +27,16 @@ const reducer = (state = initialState, action) => {
         case GET_ENCODE_SUCCESS:
             return {...state, cypher: action.encoded.encoded, loading: false};
         case GET_ENCODE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
+        case GET_DECODE_REQUEST:
+            return {...state, loading: true};
+        case GET_DECODE_SUCCESS:
+            return {...state, plain: action.decoded.decoded, loading: false};
+        case GET_DECODE_FAILURE:
             return {
                 ...state,
                 loading: false,

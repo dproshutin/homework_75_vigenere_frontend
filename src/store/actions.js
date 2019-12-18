@@ -1,11 +1,9 @@
 import {
     INPUT_CHANGE,
-    GET_ENCODE_REQUEST,
+    GET_ENCODE_DECODE_REQUEST,
     GET_ENCODE_SUCCESS,
-    GET_ENCODE_FAILURE,
-    GET_DECODE_REQUEST,
     GET_DECODE_SUCCESS,
-    GET_DECODE_FAILURE,
+    GET_ENCODE_DECODE_FAILURE,
     GET_INFORMED
 } from "./actionTypes";
 import axios from "../axios-api";
@@ -20,11 +18,11 @@ export const getTextEncoded = () => {
         const password = getState().keyToCypher;
         const message = getState().plain;
         if (password.length > 0) {
-            dispatch(getTextEncodedRequest());
+            dispatch(getTextEncodedDecodedRequest());
             axios.post('/encode', {password, message}).then(response => {
                 dispatch(getTextEncodedSuccess(response.data));
             }, err => {
-                dispatch(getTextEncodedFailure(err));
+                dispatch(getTextEncodedDecodedFailure(err));
             });
         } else {
             dispatch(getInformed());
@@ -32,16 +30,16 @@ export const getTextEncoded = () => {
     };
 };
 
-export const getTextEncodedRequest = () => {
-    return {type: GET_ENCODE_REQUEST};
+const getTextEncodedDecodedRequest = () => {
+    return {type: GET_ENCODE_DECODE_REQUEST};
 };
 
-export const getTextEncodedSuccess = (encoded) => {
+const getTextEncodedSuccess = (encoded) => {
     return {type: GET_ENCODE_SUCCESS, encoded};
 };
 
-export const getTextEncodedFailure = (error) => {
-    return {type: GET_ENCODE_FAILURE, error};
+const getTextEncodedDecodedFailure = (error) => {
+    return {type: GET_ENCODE_DECODE_FAILURE, error};
 };
 
 export const getTextDecoded = () => {
@@ -49,11 +47,11 @@ export const getTextDecoded = () => {
         const password = getState().keyToCypher;
         const message = getState().cypher;
         if (password.length > 0) {
-            dispatch(getTextDecodedRequest());
+            dispatch(getTextEncodedDecodedRequest());
             axios.post('/decode', {password, message}).then(response => {
                 dispatch(getTextDecodedSuccess(response.data));
             }, err => {
-                dispatch(getTextDecodedFailure(err));
+                dispatch(getTextEncodedDecodedFailure(err));
             });
         } else {
             dispatch(getInformed());
@@ -61,16 +59,8 @@ export const getTextDecoded = () => {
     };
 };
 
-export const getTextDecodedRequest = () => {
-    return {type: GET_DECODE_REQUEST};
-};
-
-export const getTextDecodedSuccess = (decoded) => {
+const getTextDecodedSuccess = (decoded) => {
     return {type: GET_DECODE_SUCCESS, decoded};
-};
-
-export const getTextDecodedFailure = (error) => {
-    return {type: GET_DECODE_FAILURE, error};
 };
 
 export const getInformed = () => {

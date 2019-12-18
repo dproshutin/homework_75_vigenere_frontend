@@ -27,7 +27,7 @@ export const getTextEncoded = () => {
                 dispatch(getTextEncodedFailure(err));
             });
         } else {
-            dispatch(toBeInformed());
+            dispatch(getInformed());
         }
     };
 };
@@ -56,7 +56,7 @@ export const getTextDecoded = () => {
                 dispatch(getTextDecodedFailure(err));
             });
         } else {
-            dispatch(toBeInformed());
+            dispatch(getInformed());
         }
     };
 };
@@ -74,9 +74,5 @@ export const getTextDecodedFailure = (error) => {
 };
 
 export const getInformed = () => {
-    return {type: GET_INFORMED};
-};
-
-const toBeInformed = () => {
     return {type: GET_INFORMED};
 };

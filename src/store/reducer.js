@@ -5,7 +5,8 @@ import {
     GET_ENCODE_FAILURE,
     GET_DECODE_REQUEST,
     GET_DECODE_SUCCESS,
-    GET_DECODE_FAILURE
+    GET_DECODE_FAILURE,
+    GET_INFORMED
 } from "./actionTypes";
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
     cypher: "",
     keyToCypher: "",
     error: null,
-    loading: false
+    loading: false,
+    informing: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -42,6 +44,9 @@ const reducer = (state = initialState, action) => {
                 loading: false,
                 error: action.error
             };
+        case GET_INFORMED:
+            const select = !state.informing;
+            return {...state, informing: select};
         default:
             return state;
     }

@@ -5,7 +5,8 @@ import {
     GET_ENCODE_FAILURE,
     GET_DECODE_REQUEST,
     GET_DECODE_SUCCESS,
-    GET_DECODE_FAILURE
+    GET_DECODE_FAILURE,
+    GET_INFORMED
 } from "./actionTypes";
 import axios from "../axios-api";
 
@@ -18,12 +19,16 @@ export const getTextEncoded = () => {
     return (dispatch, getState) => {
         const password = getState().keyToCypher;
         const message = getState().plain;
-        dispatch(getTextEncodedRequest());
-        axios.post('/encode', {password, message}).then(response => {
-            dispatch(getTextEncodedSuccess(response.data));
-        }, err => {
-            dispatch(getTextEncodedFailure(err));
-        });
+        if (password.length > 0) {
+            dispatch(getTextEncodedRequest());
+            axios.post('/encode', {password, message}).then(response => {
+                dispatch(getTextEncodedSuccess(response.data));
+            }, err => {
+                dispatch(getTextEncodedFailure(err));
+            });
+        } else {
+            dispatch(toBeInformed());
+        }
     };
 };
 
@@ -43,12 +48,16 @@ export const getTextDecoded = () => {
     return (dispatch, getState) => {
         const password = getState().keyToCypher;
         const message = getState().cypher;
-        dispatch(getTextDecodedRequest());
-        axios.post('/decode', {password, message}).then(response => {
-            dispatch(getTextDecodedSuccess(response.data));
-        }, err => {
-            dispatch(getTextDecodedFailure(err));
-        });
+        if (password.length > 0) {
+            dispatch(getTextDecodedRequest());
+            axios.post('/decode', {password, message}).then(response => {
+                dispatch(getTextDecodedSuccess(response.data));
+            }, err => {
+                dispatch(getTextDecodedFailure(err));
+            });
+        } else {
+            dispatch(toBeInformed());
+        }
     };
 };
 
@@ -62,4 +71,12 @@ export const getTextDecodedSuccess = (decoded) => {
 
 export const getTextDecodedFailure = (error) => {
     return {type: GET_DECODE_FAILURE, error};
+};
+
+export const getInformed = () => {
+    return {type: GET_INFORMED};
+};
+
+const toBeInformed = () => {
+    return {type: GET_INFORMED};
 };
